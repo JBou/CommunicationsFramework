@@ -2,7 +2,10 @@ package com.ikeirnez.communicationsframework.implementation.standard.handlers;
 
 import com.ikeirnez.communicationsframework.api.authentication.ConnectionAuthentication;
 import com.ikeirnez.communicationsframework.api.authentication.SimpleConnectionAuthentication;
+import com.ikeirnez.communicationsframework.api.authentication.UsernamePasswordConnectionAuthentication;
 import com.ikeirnez.communicationsframework.implementation.authentication.simple.SimpleAuthClientHandler;
+import com.ikeirnez.communicationsframework.implementation.authentication.usernamePassword.UsernamePasswordAuthClientHandler;
+import com.ikeirnez.communicationsframework.implementation.authentication.usernamePassword.UsernamePasswordAuthServerHandler;
 import com.ikeirnez.communicationsframework.implementation.handlers.BasicHandler;
 import com.ikeirnez.communicationsframework.implementation.handlers.PacketHandler;
 import com.ikeirnez.communicationsframework.implementation.handlers.ReconnectHandler;
@@ -62,11 +65,17 @@ public class StandardInitializer extends ChannelInitializer<SocketChannel> {
                     if (authentication instanceof SimpleConnectionAuthentication){
                         channelPipeline.addLast(new SimpleAuthServerHandler((ConcreteServerConnection) connection, (SimpleConnectionAuthentication) authentication));
                     }
+                    if (authentication instanceof UsernamePasswordConnectionAuthentication) {
+                        channelPipeline.addLast(new UsernamePasswordAuthServerHandler((ConcreteServerConnection) connection, (UsernamePasswordConnectionAuthentication) authentication));
+                    }
 
                     break;
                 case CLIENT:
                     if (authentication instanceof SimpleConnectionAuthentication){
                         channelPipeline.addLast(new SimpleAuthClientHandler((ConcreteClientConnection) connection, (SimpleConnectionAuthentication) authentication));
+                    }
+                    if (authentication instanceof UsernamePasswordConnectionAuthentication) {
+                        channelPipeline.addLast(new UsernamePasswordAuthClientHandler((ConcreteClientConnection) connection, (UsernamePasswordConnectionAuthentication) authentication));
                     }
 
                     break;
