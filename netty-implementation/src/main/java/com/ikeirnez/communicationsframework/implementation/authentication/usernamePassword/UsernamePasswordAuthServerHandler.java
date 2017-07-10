@@ -32,7 +32,7 @@ public class UsernamePasswordAuthServerHandler extends ChannelInboundHandlerAdap
         if (!connection.authenticated.get()) {
             if (msg instanceof PacketUsernamePasswordAuthenticate) {
                 PacketUsernamePasswordAuthenticate packet = (PacketUsernamePasswordAuthenticate) msg;
-                connection.authenticated.set(authentication.getUsers().containsKey(packet.getUsername()) && authentication.getUsers().get(packet.getPassword()).equals(packet.getPassword()));
+                connection.authenticated.set(authentication.getUsers().containsKey(packet.getUsername()) && authentication.getUsers().get(packet.getUsername()).equals(packet.getPassword()));
                 ctx.writeAndFlush(new PacketAuthenticationStatus(connection.authenticated.get()));
 
                 if (connection.authenticated.get()) {

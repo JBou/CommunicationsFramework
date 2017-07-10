@@ -24,7 +24,7 @@ public class UsernamePasswordConnectionAuthentication implements ConnectionAuthe
                 throw new RuntimeException("Password cannot be null");
             }
             this.username = username;
-            this.password = new String(MessageDigest.getInstance("SHA-256").digest(password.getBytes("UTF-8")));
+            this.password = new String(MessageDigest.getInstance("SHA-256").digest(password.getBytes("UTF-8")), "UTF-8");
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException("Error whilst encrypting password for authentication", e);
         }
@@ -36,7 +36,7 @@ public class UsernamePasswordConnectionAuthentication implements ConnectionAuthe
                 throw new RuntimeException("Users cannot be null");
             }
             for (Map.Entry<String, String> entry : users.entrySet()) {
-                this.users.put(entry.getKey(), new String(MessageDigest.getInstance("SHA-256").digest(entry.getValue().getBytes("UTF-8"))));
+                this.users.put(entry.getKey(), new String(MessageDigest.getInstance("SHA-256").digest(entry.getValue().getBytes("UTF-8")), "UTF-8"));
             }
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException("Error whilst encrypting passwords for authentication", e);

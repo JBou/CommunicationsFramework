@@ -17,7 +17,7 @@ public class SimpleConnectionAuthentication implements ConnectionAuthentication 
                 throw new RuntimeException("Key cannot be null");
             }
 
-            this.key = new String(MessageDigest.getInstance("SHA-256").digest(key.getBytes("UTF-8")));
+            this.key = new String(MessageDigest.getInstance("SHA-256").digest(key.getBytes("UTF-8")), "UTF-8");
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException("Error whilst encrypting password for authentication", e);
         }
